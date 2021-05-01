@@ -1,0 +1,23 @@
+{
+  "name": "botanist",
+  "version": "1.0.0",
+  "description": "Grow your own Discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Johnson-Su/Botanist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Johnson-Su/Botanist/issues"
+  },
+  "homepage": "https://github.com/Johnson-Su/Botanist#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "fs": "0.0.1-security"
+  }
+}

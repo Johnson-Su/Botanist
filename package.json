@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Johnson-Su/Botanist#readme",
   "dependencies": {
+    "@google-cloud/language": "^4.2.2",
     "discord.js": "^12.5.3",
     "fs": "0.0.1-security"
   }

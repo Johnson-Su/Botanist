@@ -126,11 +126,9 @@ module.exports = {
             
             console.log(process.cwd());
             archive.directory("GeneratedBot", "GeneratedBot");
-
             archive.finalize();
 
             output.on('finish', () => {
-                setTimeout(() => {
                     const Discord = require("discord.js");
                     const embeded = new Discord.MessageEmbed()
                     .setColor('#79BD9A')
@@ -138,13 +136,9 @@ module.exports = {
                     .setURL(`https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot`)
                     message.channel.send(embeded);
                     message.channel.send({ files: ["CompletedBot.zip"] }); 
-                }, 5000);
-                setTimeout(() => {
                     message.channel.send("```🌲 Download and open this zip and your desktop and run the included script in the zip!\n\n🌎 Your bot will go online and be ready to take on the world!\n\n❗ Once invited, use !help to view your bot's commands \n\n❌ To close this channel type -harvest```");
-                }, 5500);
             });
         }
-        console.log(process.cwd());
-        await zipFiles().catch(console.error);
+        setTimeout(() => { zipFiles().catch(console.error); }, 2500);
     }
 }

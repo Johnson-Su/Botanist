@@ -78,22 +78,9 @@ client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    if(command === 'grow'){
-        client.commands.get('grow').execute(client, message, db);
-    } else if(command === 'help'){
-        client.commands.get('help').execute(message, args);
-    } else if(command === 'modules'){
-        client.commands.get('modules').execute(message, args);
-    } else if(command === 'graft'){
-        client.commands.get('graft').execute(message, args);
-    } else if(command === 'plant'){
-        client.commands.get('plant').execute(client, message, db);
-    } else if(command === 'harvest'){
-        client.commands.get('harvest').execute(client, message, db);
-    } else if(command === 'roulette'){
-        client.commands.get('roulette').execute(message, args);
-    } else if(command === 'image'){
-        client.commands.get('image').execute(client, message, args);
+    const cmds = ["plant","grow","graft","harvest","help","modules","ban","gamble","image","kick","roulette"]
+    if (cmds.includes(command)){
+        client.commands.get(String(command)).execute(client, message, args, db);
     }
 });
 

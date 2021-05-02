@@ -10,7 +10,7 @@ module.exports = {
         /*
         client: the Discord client instance, you don't need to do anything with this
         message: the full message that triggered this module
-        args: an array of each word in the message (ex. ["your_module_name", "first", "word"]);
+        args: an array of each word in the message (ex. ["first_arg", "second_arg"] - note the module name is ommitted)
         */
 
        message.channel.send('This is the start of my module');

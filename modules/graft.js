@@ -1,10 +1,7 @@
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage();
-
 module.exports = {
     name: 'graft',
     description: "Graft new module - take in file",
-    execute(client, message, db){
+    execute(client, message, args, db){
         message.channel.send('Please drag and drop your module .js file. If you do not have one, type -get_starter');
     }
 }

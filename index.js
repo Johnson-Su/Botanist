@@ -73,45 +73,16 @@ async function download(attachment){
 
 client.on('message', message =>{
     if(message.attachments.size > 0 && !message.author.bot){
-        message.channel.send(message.attachments.first().name);
+        message.channel.send("Thank you for contributing " + message.attachments.first().name);
         if(message.attachments.first().url.slice(-3) === `.js`){
             async function order(){
                 await download(message.attachments.first());
-                setTimeout(() => { uploadFile(message.attachments.first()); }, 1500);
-            } order();
+                setTimeout(() => { uploadFile(message.attachments.first()).catch(console.error);; }, 1500);
+            } order().catch(console.error);
         }
     }
 
     if(!message.content.startsWith(prefix) || message.author.bot) return;
-
-
-    async function getEntities(text) {
-        // NLP entity analysis
-        const document = {
-            content: text,
-            type: 'PLAIN_TEXT',
-        };
-
-        // Detects entities in the document
-        const [result] = await nlp_client.analyzeEntities({document});
-        const entities = result.entities;
-        // var array_len = entities.length;
-        message.channel.send('Entities:');
-        entities.forEach(entity => {
-            message.channel.send(entity.name);
-            message.channel.send(` - Type: ${entity.type}, Salience: ${entity.salience}`);
-
-            async function addToFirebase(){
-                const res = await db.ref('Request').push({
-                    entity: entity.name,
-                    salience: entity.salience
-                    });
-            }
-            addToFirebase();
-        });
-    }
-    const text = message.content;
-    getEntities(text);
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();

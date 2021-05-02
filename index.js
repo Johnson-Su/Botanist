@@ -75,12 +75,15 @@ client.on('message', message =>{
     if(message.attachments.size > 0 && !message.author.bot){
         message.channel.send("Grafting your branch...", {files: ["./graft.gif"]});
         setTimeout(() => {
-            message.channel.send("🌳 Thank you for contributing " + message.attachments.first().name);
             if(message.attachments.first().url.slice(-3) === `.js`){
                 async function order(){
                     await download(message.attachments.first());
+                    message.channel.send("🌳 Thank you for contributing " + message.attachments.first().name);
                     setTimeout(() => { uploadFile(message.attachments.first()).catch(console.error);; }, 1500);
                 } order().catch(console.error);
+            } else if (message.attachments.first().url.slice(-3) != '.js'){
+                message.reply('Uploading graft failed not a .js file');
+                return;
             }
         }, 4000);
     }

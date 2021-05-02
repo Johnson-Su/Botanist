@@ -11,6 +11,7 @@ let request = require(`request`);
 
 const client = new Discord.Client();
 const nlp_client = new language.LanguageServiceClient();
+const storage = new Storage();
 
 var config = {
     apiKey: "AIzaSyCwR7ySw5QkY6r1zpFhaF3VJhAJD0yuLR4",
@@ -21,6 +22,7 @@ var config = {
 firebase.initializeApp(config)
 
 const db = firebase.database();
+
 
 const prefix = '-';
 
@@ -37,18 +39,53 @@ client.once('ready', () => {
     console.log('Botanist is online!');
 });
 
+function uploadFile(attachment) {
+    return new Promise(resolve => {
+        const bucket = storage.bucket("botanist-312407.appspot.com");
+
+        var data = fs.readFileSync(`./modules/${attachment.name}`, 'UTF-8');
+        data = data.substr(2, data.indexOf("\n"));
+        console.log(data);
+        const image_options = {
+            destination: `${attachment.name}`,
+            metadata: {
+                metadata: {
+                tags: data // parse first line comment, splice whitespace
+                }
+            }
+        }
+        bucket.upload(`./modules/${attachment.name}`, image_options, function(err, file, apiResponse) {});
+
+        const bucket_options = {
+            includeFiles: true,
+            force: true
+        };
+        bucket.makePublic(bucket_options, function(err, files) {});
+        console.log('Uploaded a raw string!');
+    resolve('resolved');
+    });
+}
+
 
 function download(attachment){
-    request.get(attachment.url)
+    return new Promise(resolve => {
+        request.get(attachment.url)
         .on('error', console.error)
         .pipe(fs.createWriteStream(`./modules/${attachment.name}`));
+        resolve('resolved');
+      });
 }
 
 client.on('message', message =>{
     if(message.attachments.size > 0 && !message.author.bot){
         message.channel.send(message.attachments.first().name);
         if(message.attachments.first().url.slice(-3) === `.js`){
-            download(message.attachments.first());//Function I will show later
+            async function order(){
+                await download(message.attachments.first());
+            
+                await uploadFile(message.attachments.first());
+            } order();
+            
         }
     }
 
@@ -95,5 +132,3 @@ client.on('message', message =>{
 var token = require('./token.js');
 BOT_TOKEN = token.BOT_TOKEN;
 client.login(BOT_TOKEN);
-
-

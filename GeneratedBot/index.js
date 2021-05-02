@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-global.XMLHttpRequest = require("xhr2");
-var auth = require('./GeneratedBot/auth.js');
+var auth = require('./auth.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();

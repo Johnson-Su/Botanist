@@ -1,4 +1,6 @@
-const BOT_TOKEN = 'a'; 
-const BOT_NAME = 'a'; 
+const BOT_TOKEN = 'ODM4NDY3NTgyMDQ1NzE2NTEy.YI7hyQ.KT6aqkHVVmIlV3yc3-y5ayZ5U1o'; 
+const BOT_NAME = 'testBot'; 
+const CLIENT_ID = '838467582045716512'; 
 exports.BOT_TOKEN = BOT_TOKEN;
 exports.BOT_NAME = BOT_NAME;
+exports.CLIENT_ID = CLIENT_ID;

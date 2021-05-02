@@ -1,3 +1,5 @@
+// ban permissions moderator moderate 
+
 const { Role } = require("discord.js");
 
 module.exports = {

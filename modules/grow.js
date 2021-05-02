@@ -13,9 +13,11 @@ module.exports = {
         var botName = args[0];
         var botToken = args[1];
         var clientId = args[2];
+        message.channel.send("bot token: " + botToken)
+        message.channel.send("client id: " + clientId)
 
-        await fs.writeFileSync('./GeneratedBot/auth.js', 
-        "const BOT_TOKEN = '" + botName + "'; \n" + "const BOT_NAME = '" + botToken + "'; \n" + "const CLIENT_ID = '" + clientId + "'; \n" + "exports.BOT_TOKEN = BOT_TOKEN;\n" + "exports.BOT_NAME = BOT_NAME;\n" + "exports.CLIENT_ID = CLIENT_ID;\n",
+        fs.writeFileSync('./GeneratedBot/auth.js', 
+        "const BOT_TOKEN = '" + botToken + "'; \n" + "const BOT_NAME = '" + botName + "'; \n" + "const CLIENT_ID = '" + clientId + "'; \n" + "exports.BOT_TOKEN = BOT_TOKEN;\n" + "exports.BOT_NAME = BOT_NAME;\n" + "exports.CLIENT_ID = CLIENT_ID;\n",
         function (err) {
             if (err) throw err;
             console.log('Saved!');

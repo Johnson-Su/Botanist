@@ -1,4 +1,4 @@
-// [use this line to format relevant tags separated by whitespaces] (ex. // moderator roles permissions)
+// [use this line to format relevant tags separated by whitespaces] (ex. // moderator roles permissions) 3-6 would be ideal
 
 const { Role } = require("discord.js");
 

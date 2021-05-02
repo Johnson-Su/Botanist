@@ -1,3 +1,5 @@
+// fun funny joke jokes
+
 const { Role } = require("discord.js");
 
 module.exports = {

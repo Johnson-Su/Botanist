@@ -1,12 +1,12 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 global.XMLHttpRequest = require("xhr2");
-var auth = require('./auth.js');
+var auth = require('./GeneratedBot/auth.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const prefix = '-';
+const prefix = '!';
 
 const commandFiles = fs.readdirSync('./modules/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){

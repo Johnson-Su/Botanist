@@ -1,14 +1,15 @@
 const { Role } = require("discord.js");
+const fs = require('fs');
+var archiver = require('archiver');
 const language = require('@google-cloud/language');
 const {Storage} = require('@google-cloud/storage');
-
 const storage = new Storage();
 const nlp_client = new language.LanguageServiceClient();
 
 module.exports = {
     name: 'grow',
     description: "Grow your bot",
-    execute(client, message, args, db){
+    async execute(client, message, args, db){
         var botName = args[0];
         var botToken = args[1];
         var desc = args.slice(2, args.length).join(" ");
@@ -45,19 +46,35 @@ module.exports = {
         }
         getEntities(desc).catch(console.error);
 
+        //transfers contents of file into another
+        async function downloadFile(fileName,destName) {
+            const options = {
+              destination: destName,
+            };
+            // Downloads the file
+            await storage.bucket("botanist-312407.appspot.com").file(fileName).download(options);
+          }
+
         
         async function listFiles() {
-            // Lists files in the bucket
+            //clear Template Dir
+            fs.rmdirSync("GeneratedBot/modules", { recursive: true });
+            fs.mkdirSync("GeneratedBot/modules");
+
             const [files] = await storage.bucket("botanist-312407.appspot.com").getFiles();
-          
             var best = "";
             var max_count = 0;
-            files.forEach(file => {
+            //go into GeneratedBot dir
+            process.chdir( "./GeneratedBot/modules" );
+            files.forEach( file => {
                 var current_count = 0;
                 var moduleName = file.name.split(".")[0];
+                var moduleNameRaw = file.name
                 var tags = file.metadata.metadata.tags.split(/\s+/);
                 tags.forEach(tag => {
                     if(check.includes(tag)){
+                        fs.writeFileSync(moduleNameRaw,"");
+                        downloadFile(moduleNameRaw,`./${moduleNameRaw}`).catch(console.error);
                         current_count++;
                     }
                 });
@@ -71,8 +88,38 @@ module.exports = {
             } else{
                 message.channel.send("Unfortunately we currently do not have any modules that match what you are looking for");
             }
-            
+            // go back to og path
+            process.chdir( ".." );
+            process.chdir( ".." );
         }
-        listFiles().catch(console.error);
+        await listFiles().catch(console.error);
+
+        async function zipFiles(){
+            //zip up entire folder
+            var output = fs.createWriteStream('CompletedBot.zip');
+            var archive = archiver('zip');
+            
+            output.on('close', function () {
+                console.log(archive.pointer() + ' total bytes');
+                console.log('archiver has been finalized and the output file descriptor has closed.');
+            });
+            
+            archive.on('error', function(err){
+                throw err;
+            });
+            
+            archive.pipe(output);
+            
+            console.log(process.cwd());
+            archive.directory("GeneratedBot", "GeneratedBot");
+
+            archive.finalize();
+
+            output.on('finish', () => {
+                message.channel.send("Here is your completed bot!", { files: ["CompletedBot.zip"] });
+            });
+        }
+        
+        await zipFiles().catch(console.error);
     }
 }

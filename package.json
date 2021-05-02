@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Johnson-Su/Botanist#readme",
   "dependencies": {
     "@google-cloud/language": "^4.2.2",
+    "archiver": "^5.3.0",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "fast-crc32c": "^2.0.0",

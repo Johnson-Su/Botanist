@@ -110,8 +110,6 @@ module.exports = {
 
         async function zipFiles(){
             //zip up entire folder
-            process.chdir( ".." );
-            process.chdir( ".." );
             var output = fs.createWriteStream('CompletedBot.zip');
             var archive = archiver('zip');
             
@@ -146,7 +144,7 @@ module.exports = {
                 }, 5500);
             });
         }
-        
+        console.log(process.cwd());
         await zipFiles().catch(console.error);
     }
 }

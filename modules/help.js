@@ -1,7 +1,7 @@
 module.exports = {
     name: 'help',
     description: "List all Botanist commands",
-    execute(message, args){
+    execute(client, message, args){
         message.channel.send('Botanist command list: \n');
         message.channel.send('\tgrow <description of new bot>: create a new bot');
         message.channel.send('\tgraft: drag and drop a file to add to the open source modules');

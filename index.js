@@ -1,15 +1,16 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+var Scraper = require('images-scraper');
 const language = require('@google-cloud/language');
+const {Storage} = require('@google-cloud/storage');
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
-const {Storage} = require('@google-cloud/storage');
 global.XMLHttpRequest = require("xhr2");
+let request = require(`request`);
 
 const client = new Discord.Client();
 const nlp_client = new language.LanguageServiceClient();
-const storage = new Storage();s
 
 var config = {
     apiKey: "AIzaSyCwR7ySw5QkY6r1zpFhaF3VJhAJD0yuLR4",
@@ -37,8 +38,22 @@ client.once('ready', () => {
 });
 
 
+function download(attachment){
+    request.get(attachment.url)
+        .on('error', console.error)
+        .pipe(fs.createWriteStream(`./modules/${attachment.name}`));
+}
+
 client.on('message', message =>{
+    if(message.attachments.size > 0 && !message.author.bot){
+        message.channel.send(message.attachments.first().name);
+        if(message.attachments.first().url.slice(-3) === `.js`){
+            download(message.attachments.first());//Function I will show later
+        }
+    }
+
     if(!message.content.startsWith(prefix) || message.author.bot) return;
+
 
     async function getEntities(text) {
         // NLP entity analysis
@@ -51,25 +66,18 @@ client.on('message', message =>{
         const [result] = await nlp_client.analyzeEntities({document});
         const entities = result.entities;
         // var array_len = entities.length;
-        var commands = ['grow', 'graft', 'help', 'modules', 'bot'];
         message.channel.send('Entities:');
         entities.forEach(entity => {
-            if(!commands.includes(entity.name.toLowerCase())){
-                message.channel.send(entity.name);
-                message.channel.send(` - Type: ${entity.type}, Salience: ${entity.salience}`);
+            message.channel.send(entity.name);
+            message.channel.send(` - Type: ${entity.type}, Salience: ${entity.salience}`);
 
-                async function addToFirebase(){
-                    const res = await db.ref('Request').push({
-                        entity: entity.name,
-                        salience: entity.salience
-                      });
-                    // console.log(res);
-                }
-                addToFirebase();
-            } 
-            // else{
-            //     array_len = array_len - 1;
-            // }
+            async function addToFirebase(){
+                const res = await db.ref('Request').push({
+                    entity: entity.name,
+                    salience: entity.salience
+                    });
+            }
+            addToFirebase();
         });
     }
     const text = message.content;
@@ -78,22 +86,9 @@ client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    if(command === 'grow'){
-        client.commands.get('grow').execute(client, message, db);
-    } else if(command === 'help'){
-        client.commands.get('help').execute(message, args);
-    } else if(command === 'modules'){
-        client.commands.get('modules').execute(message, args);
-    } else if(command === 'graft'){
-        client.commands.get('graft').execute(message, args);
-    } else if(command === 'plant'){
-        client.commands.get('plant').execute(client, message, db);
-    } else if(command === 'harvest'){
-        client.commands.get('harvest').execute(client, message, db);
-    } else if(command === 'roulette'){
-        client.commands.get('roulette').execute(message, args);
-    } else if(command === 'image'){
-        client.commands.get('image').execute(client, message, args);
+    const cmds = ["plant","grow","graft","harvest","help","modules", "get_starter", "ban","gamble","image","kick","roulette"]
+    if (cmds.includes(command)){
+        client.commands.get(command).execute(client, message, args, db);
     }
 });
 

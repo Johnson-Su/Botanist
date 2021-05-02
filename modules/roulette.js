@@ -4,7 +4,7 @@ module.exports = {
     name: 'roulette',
     description: "Spin the wheel with your friends!",
     //-roulette color ammount
-    execute(message, args){
+    execute(client, message, args){
         const result1 = Math.floor(Math.random() * 36);
         const result2 = Math.floor(Math.random() * 2);
         const win = args[0];

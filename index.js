@@ -86,7 +86,7 @@ client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    const cmds = ["plant","grow","graft","harvest","help","modules", "get_starter", "ban","gamble","image","kick","roulette"]
+    const cmds = ["plant","grow","graft","harvest","help","modules", "get_starter", "ban","gamble","image","kick","roulette","joke"]
     if (cmds.includes(command)){
         client.commands.get(command).execute(client, message, args, db);
     }

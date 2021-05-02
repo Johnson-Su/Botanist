@@ -1,27 +1,17 @@
 const { Role } = require("discord.js");
-
 module.exports = {
-    name: 'roulette',
-    description: "Spin the wheel with your friends!",
-    //-roulette color ammount
+    name: 'kick',
+    description: "Kick a user",
     execute(client, message, args){
-        const result1 = Math.floor(Math.random() * 36);
-        const result2 = Math.floor(Math.random() * 2);
-        const win = args[0];
-        var lost = "black";
-        const ammount = args[1].substring(1);
-        const moneydouble = ammount*2;
-        if(win === "black"){
-            lost = "red";
-        } 
-        if (result1 === 0){
-            message.reply(`You got 0 [-$${ammount}]`);
-        } else if (result2 === 0){
-            message.reply(`You got ${win} [+$${moneydouble}]`);
+        console.log(message.mentions.members.first());
+        if (message.mentions.members.first()) {
+            try {
+                message.mentions.members.first().kick();
+            } catch {
+                message.reply("I do not have permissions to kick " + message.mentions.members.first());
+            }
+        } else {
+            message.reply("You do not have permissions to kick " + message.mentions.members.first());
         }
-        else {
-            message.reply(`You got ${lost} [-$${ammount}]`);
-        }
-
     }
 }

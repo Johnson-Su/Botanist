@@ -1,27 +1,16 @@
 const { Role } = require("discord.js");
 
 module.exports = {
-    name: 'roulette',
-    description: "Spin the wheel with your friends!",
-    //-roulette color ammount
+    name: 'joke',
+    description: "Say a random joke",
     execute(client, message, args){
-        const result1 = Math.floor(Math.random() * 36);
-        const result2 = Math.floor(Math.random() * 2);
-        const win = args[0];
-        var lost = "black";
-        const ammount = args[1].substring(1);
-        const moneydouble = ammount*2;
-        if(win === "black"){
-            lost = "red";
-        } 
-        if (result1 === 0){
-            message.reply(`You got 0 [-$${ammount}]`);
-        } else if (result2 === 0){
-            message.reply(`You got ${win} [+$${moneydouble}]`);
-        }
-        else {
-            message.reply(`You got ${lost} [-$${ammount}]`);
-        }
-
+        const jokes = ["What's big brown and sticky?", "Why couldn't the bike stand up?","What did the person say to the stone?"];
+        const ans = ["A stick.", "Because it was two tired!","You rock!"];
+        const whichone = Math.floor(Math.random() * 3);
+        message.channel.send(jokes[whichone]);
+        setTimeout(() => {  message.channel.send('...'); }, 500);
+        setTimeout(() => {  message.channel.send('...'); }, 1500);
+        setTimeout(() => {  message.channel.send('...'); }, 2500);
+        setTimeout(() => {  message.channel.send(ans[whichone]); }, 3500);
     }
 }

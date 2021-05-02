@@ -87,9 +87,13 @@ client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
 
-    const cmds = ["plant","grow","graft","harvest","help","modules", "get_starter", "ban","gamble","image","kick","roulette","joke"]
-    if (cmds.includes(command)){
+    if (!client.commands.has(command)) return;
+
+    try {
         client.commands.get(command).execute(client, message, args, db);
+    } catch (error) {
+        console.error(error);
+        message.reply('there was an error trying to execute that command!');
     }
 });
 

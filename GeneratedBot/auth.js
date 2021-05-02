@@ -1,4 +1,4 @@
-const BOT_TOKEN = 'botbot'; 
-const BOT_NAME = '283746782364'; 
+const BOT_TOKEN = 'a'; 
+const BOT_NAME = 'a'; 
 exports.BOT_TOKEN = BOT_TOKEN;
 exports.BOT_NAME = BOT_NAME;

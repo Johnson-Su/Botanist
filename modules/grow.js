@@ -68,6 +68,7 @@ module.exports = {
             //clear Template Dir
             fs.rmdirSync("GeneratedBot/modules", { recursive: true });
             fs.mkdirSync("GeneratedBot/modules");
+            fs.copyFileSync("modules/help.js","GeneratedBot/modules/help.js");
 
             const [files] = await storage.bucket("botanist-312407.appspot.com").getFiles();
             var best = "";

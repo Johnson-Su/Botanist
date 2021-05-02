@@ -12,15 +12,16 @@ module.exports = {
     async execute(client, message, args, db){
         var botName = args[0];
         var botToken = args[1];
+        var clientId = args[2];
 
         await fs.writeFileSync('./GeneratedBot/auth.js', 
-        "const BOT_TOKEN = '" + botName + "'; \n" + "const BOT_NAME = '" + botToken + "'; \n" + "exports.BOT_TOKEN = BOT_TOKEN;\n" + "exports.BOT_NAME = BOT_NAME;\n",
+        "const BOT_TOKEN = '" + botName + "'; \n" + "const BOT_NAME = '" + botToken + "'; \n" + "const CLIENT_ID = '" + clientId + "'; \n" + "exports.BOT_TOKEN = BOT_TOKEN;\n" + "exports.BOT_NAME = BOT_NAME;\n" + "exports.CLIENT_ID = CLIENT_ID;\n",
         function (err) {
             if (err) throw err;
             console.log('Saved!');
           });
 
-        var desc = args.slice(2, args.length).join(" ");
+        var desc = args.slice(3, args.length).join(" ");
 
         // list of entities to compare tags with
         var check = [];  

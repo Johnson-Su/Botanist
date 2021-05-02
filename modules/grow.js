@@ -58,8 +58,7 @@ module.exports = {
         
         async function listFiles() {
             //clear Template Dir
-            fs.rmdirSync("GeneratedBot", { recursive: true });
-            fs.mkdirSync("GeneratedBot");
+            fs.rmdirSync("GeneratedBot/modules", { recursive: true });
             fs.mkdirSync("GeneratedBot/modules");
 
             const [files] = await storage.bucket("botanist-312407.appspot.com").getFiles();
@@ -94,25 +93,33 @@ module.exports = {
             process.chdir( ".." );
         }
         await listFiles().catch(console.error);
-        
-        //zip up entire folder
-        var output = fs.createWriteStream('CompletedBot.zip');
-        var archive = archiver('zip');
-        
-        output.on('close', function () {
-            console.log(archive.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
-        });
-        
-        archive.on('error', function(err){
-            throw err;
-        });
-        
-        archive.pipe(output);
-        
-        console.log(process.cwd());
-        archive.directory("GeneratedBot", "GeneratedBot");
 
-        archive.finalize();
+        async function zipFiles(){
+            //zip up entire folder
+            var output = fs.createWriteStream('CompletedBot.zip');
+            var archive = archiver('zip');
+            
+            output.on('close', function () {
+                console.log(archive.pointer() + ' total bytes');
+                console.log('archiver has been finalized and the output file descriptor has closed.');
+            });
+            
+            archive.on('error', function(err){
+                throw err;
+            });
+            
+            archive.pipe(output);
+            
+            console.log(process.cwd());
+            archive.directory("GeneratedBot", "GeneratedBot");
+
+            archive.finalize();
+
+            output.on('finish', () => {
+                message.channel.send("Here is your completed bot!", { files: ["CompletedBot.zip"] });
+            });
+        }
+        
+        await zipFiles().catch(console.error);
     }
 }

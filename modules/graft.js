@@ -1,3 +1,6 @@
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage();
+
 module.exports = {
     name: 'graft',
     description: "Graft new module - take in file",

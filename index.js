@@ -39,13 +39,12 @@ client.once('ready', () => {
     console.log('Botanist is online!');
 });
 
-function uploadFile(attachment) {
-    return new Promise(resolve => {
+async function uploadFile(attachment) {
         const bucket = storage.bucket("botanist-312407.appspot.com");
 
         var data = fs.readFileSync(`./modules/${attachment.name}`, 'UTF-8');
         data = data.substr(2, data.indexOf("\n"));
-        console.log(data);
+     
         const image_options = {
             destination: `${attachment.name}`,
             metadata: {
@@ -54,26 +53,22 @@ function uploadFile(attachment) {
                 }
             }
         }
-        bucket.upload(`./modules/${attachment.name}`, image_options, function(err, file, apiResponse) {});
+        
+        await bucket.upload(`./modules/${attachment.name}`, image_options, function(err, file, apiResponse) {});
 
         const bucket_options = {
             includeFiles: true,
             force: true
         };
         bucket.makePublic(bucket_options, function(err, files) {});
-        console.log('Uploaded a raw string!');
-    resolve('resolved');
-    });
+        console.log('Uploaded a new module file!');
 }
 
 
-function download(attachment){
-    return new Promise(resolve => {
-        request.get(attachment.url)
+async function download(attachment){
+        await request.get(attachment.url)
         .on('error', console.error)
         .pipe(fs.createWriteStream(`./modules/${attachment.name}`));
-        resolve('resolved');
-      });
 }
 
 client.on('message', message =>{
@@ -82,10 +77,8 @@ client.on('message', message =>{
         if(message.attachments.first().url.slice(-3) === `.js`){
             async function order(){
                 await download(message.attachments.first());
-            
-                await uploadFile(message.attachments.first());
+                setTimeout(() => { uploadFile(message.attachments.first()); }, 1500);
             } order();
-            
         }
     }
 
@@ -128,6 +121,8 @@ client.on('message', message =>{
         client.commands.get(command).execute(client, message, args, db);
     }
 });
+
+process.env.GOOGLE_APPLICATION_CREDENTIALS="./service_account.json"
 
 var token = require('./token.js');
 BOT_TOKEN = token.BOT_TOKEN;

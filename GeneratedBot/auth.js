@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 const BOT_TOKEN = 'ODM4NDY3NTgyMDQ1NzE2NTEy.YI7hyQ.KT6aqkHVVmIlV3yc3-y5ayZ5U1o'; 
 const BOT_NAME = 'testBot'; 
+=======
+const BOT_TOKEN = 'testBot'; 
+const BOT_NAME = 'ODM4NDY3NTgyMDQ1NzE2NTEy.YI7hyQ.KT6aqkHVVmIlV3yc3-y5ayZ5U1o'; 
+>>>>>>> 1d4c89b475a98ff8b61b308817a613c1573dc4e4
 const CLIENT_ID = '838467582045716512'; 
 exports.BOT_TOKEN = BOT_TOKEN;
 exports.BOT_NAME = BOT_NAME;

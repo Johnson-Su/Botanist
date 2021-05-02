@@ -10,6 +10,7 @@ module.exports = {
     name: 'grow',
     description: "Grow your bot",
     async execute(client, message, args, db){
+        message.channel.send("Growing your new Bot ...", {files: ["./growing.gif"]});
         var botName = args[0];
         var botToken = args[1];
         var clientId = args[2];
@@ -22,6 +23,7 @@ module.exports = {
             if (err) throw err;
             console.log('Saved!');
           });
+
 
         var desc = args.slice(3, args.length).join(" ");
 
@@ -96,7 +98,7 @@ module.exports = {
                 }
             });
             if(max_count > 0){
-                message.channel.send("best module is: " + best);
+                // message.channel.send("best module is: " + best);
             } else{
                 message.channel.send("Unfortunately we currently do not have any modules that match what you are looking for");
             }
@@ -108,6 +110,8 @@ module.exports = {
 
         async function zipFiles(){
             //zip up entire folder
+            process.chdir( ".." );
+            process.chdir( ".." );
             var output = fs.createWriteStream('CompletedBot.zip');
             var archive = archiver('zip');
             
@@ -128,11 +132,21 @@ module.exports = {
             archive.finalize();
 
             output.on('finish', () => {
-                message.channel.send("Here is your completed bot!", { files: ["CompletedBot.zip"] });
+                setTimeout(() => {
+                    const Discord = require("discord.js");
+                    const embeded = new Discord.MessageEmbed()
+                    .setColor('#79BD9A')
+                    .setTitle(`Invite ${botName} to a server!`)
+                    .setURL(`https://discord.com/oauth2/authorize?client_id=${clientId}&scope=bot`)
+                    message.channel.send(embeded);
+                    message.channel.send({ files: ["CompletedBot.zip"] }); 
+                }, 5000);
+                setTimeout(() => {
+                    message.channel.send("```🌲 Download and open this zip and your desktop and run the included script!\n\n🌎 Your bot will go online and be ready to take on the world!\n\n❗ Once invited, use !help to view your bot's commands \n\n❌ To close this channel type -harvest```");
+                }, 5500);
             });
         }
         
         await zipFiles().catch(console.error);
-
     }
 }

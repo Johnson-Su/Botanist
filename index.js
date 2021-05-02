@@ -4,19 +4,21 @@ const language = require('@google-cloud/language');
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
+require('firebase/storage');
 
 const client = new Discord.Client();
 const nlp_client = new language.LanguageServiceClient();
 
 var config = {
-apiKey: "AIzaSyCwR7ySw5QkY6r1zpFhaF3VJhAJD0yuLR4",
-authDomain: "botanist-312407.firebaseapp.com",
-databaseURL: "https://botanist-312407-default-rtdb.firebaseio.com/",
-storageBucket: "botanist-312407.appspot.com"
+    apiKey: "AIzaSyCwR7ySw5QkY6r1zpFhaF3VJhAJD0yuLR4",
+    authDomain: "botanist-312407.firebaseapp.com",
+    databaseURL: "https://botanist-312407-default-rtdb.firebaseio.com/",
+    storageBucket: "botanist-312407.appspot.com"
 };
 firebase.initializeApp(config)
 
 const db = firebase.database();
+const storage = firebase.storage();
 
 const prefix = '-';
 
@@ -33,6 +35,16 @@ for(const file of commandFiles){
 client.once('ready', () => {
     console.log('Botanist is online!');
 });
+
+async function test(){
+    var testRef = storage.ref(); //.child('./mountains.jpg');
+    // 'file' comes from the Blob or File API
+    var testRes = testRef.child('mountains.jpg').put(file('./mountains.jpg')).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(testRef);
+    });
+}
+test();
 
 
 
@@ -62,7 +74,7 @@ client.on('message', message =>{
                         entity: entity.name,
                         salience: entity.salience
                       });
-                    console.log(res);
+                    // console.log(res);
                 }
                 addToFirebase();
             } 
@@ -78,13 +90,17 @@ client.on('message', message =>{
     const command = args.shift().toLowerCase();
 
     if(command === 'grow'){
-        client.commands.get('grow').execute(message, db);
+        client.commands.get('grow').execute(client, message, db);
     } else if(command === 'help'){
         client.commands.get('help').execute(message, args);
     } else if(command === 'modules'){
         client.commands.get('modules').execute(message, args);
     } else if(command === 'graft'){
         client.commands.get('graft').execute(message, args);
+    } else if(command === 'plant'){
+        client.commands.get('plant').execute(client, message, db);
+    } else if(command === 'harvest'){
+        client.commands.get('harvest').execute(client, message, db);
     }
 });
 

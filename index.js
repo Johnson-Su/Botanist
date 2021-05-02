@@ -4,10 +4,12 @@ const language = require('@google-cloud/language');
 var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
-require('firebase/storage');
+const {Storage} = require('@google-cloud/storage');
+global.XMLHttpRequest = require("xhr2");
 
 const client = new Discord.Client();
 const nlp_client = new language.LanguageServiceClient();
+const storage = new Storage();s
 
 var config = {
     apiKey: "AIzaSyCwR7ySw5QkY6r1zpFhaF3VJhAJD0yuLR4",
@@ -18,7 +20,6 @@ var config = {
 firebase.initializeApp(config)
 
 const db = firebase.database();
-const storage = firebase.storage();
 
 const prefix = '-';
 
@@ -31,21 +32,9 @@ for(const file of commandFiles){
     client.commands.set(command.name, command);
 }
 
-
 client.once('ready', () => {
     console.log('Botanist is online!');
 });
-
-async function test(){
-    var testRef = storage.ref(); //.child('./mountains.jpg');
-    // 'file' comes from the Blob or File API
-    var testRes = testRef.child('mountains.jpg').put(file('./mountains.jpg')).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-        console.log(testRef);
-    });
-}
-test();
-
 
 
 client.on('message', message =>{

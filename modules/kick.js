@@ -1,3 +1,5 @@
+// moderator moderating kick permissions
+
 const { Role } = require("discord.js");
 module.exports = {
     name: 'kick',

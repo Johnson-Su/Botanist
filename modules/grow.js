@@ -140,7 +140,7 @@ module.exports = {
                     message.channel.send({ files: ["CompletedBot.zip"] }); 
                 }, 5000);
                 setTimeout(() => {
-                    message.channel.send("```🌲 Download and open this zip and your desktop and run the included script!\n\n🌎 Your bot will go online and be ready to take on the world!\n\n❗ Once invited, use !help to view your bot's commands \n\n❌ To close this channel type -harvest```");
+                    message.channel.send("```🌲 Download and open this zip and your desktop and run the included script in the zip!\n\n🌎 Your bot will go online and be ready to take on the world!\n\n❗ Once invited, use !help to view your bot's commands \n\n❌ To close this channel type -harvest```");
                 }, 5500);
             });
         }

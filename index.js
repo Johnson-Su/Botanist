@@ -101,6 +101,10 @@ client.on('message', message =>{
         client.commands.get('plant').execute(client, message, db);
     } else if(command === 'harvest'){
         client.commands.get('harvest').execute(client, message, db);
+    } else if(command === 'roulette'){
+        client.commands.get('roulette').execute(message, args);
+    } else if(command === 'image'){
+        client.commands.get('image').execute(client, message, args);
     }
 });
 

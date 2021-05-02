@@ -1,15 +1,15 @@
 const { Role } = require("discord.js");
 const fs = require('fs');
+var archiver = require('archiver');
 const language = require('@google-cloud/language');
 const {Storage} = require('@google-cloud/storage');
-
 const storage = new Storage();
 const nlp_client = new language.LanguageServiceClient();
 
 module.exports = {
     name: 'grow',
     description: "Grow your bot",
-    execute(client, message, args, db){
+    async execute(client, message, args, db){
         var botName = args[0];
         var botToken = args[1];
         var desc = args.slice(2, args.length).join(" ");
@@ -93,6 +93,26 @@ module.exports = {
             process.chdir( ".." );
             process.chdir( ".." );
         }
-        listFiles().catch(console.error);
+        await listFiles().catch(console.error);
+        
+        //zip up entire folder
+        var output = fs.createWriteStream('CompletedBot.zip');
+        var archive = archiver('zip');
+        
+        output.on('close', function () {
+            console.log(archive.pointer() + ' total bytes');
+            console.log('archiver has been finalized and the output file descriptor has closed.');
+        });
+        
+        archive.on('error', function(err){
+            throw err;
+        });
+        
+        archive.pipe(output);
+        
+        console.log(process.cwd());
+        archive.directory("GeneratedBot", "GeneratedBot");
+
+        archive.finalize();
     }
 }

@@ -2,7 +2,7 @@ const { Role } = require("discord.js");
 
 module.exports = {
     name: 'plant',
-    description: "Plant a new bot",
+    description: "-plant (creates a new channel for growing a bot)",
     execute(client, message, db){
         //make temp channel with welcome
         message.guild.channels.create('botanist nursery', {

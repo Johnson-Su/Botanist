@@ -4,7 +4,7 @@ const { Role } = require("discord.js");
 
 module.exports = {
     name: 'ban',
-    description: "Ban a user",
+    description: "-ban USER (Bans User)",
     async execute(client, message, args){
         if (!message.member.hasPermission('BAN_MEMBERS')){
             return message.reply("You do not have permissions to use that command");

@@ -8,7 +8,7 @@ const nlp_client = new language.LanguageServiceClient();
 
 module.exports = {
     name: 'grow',
-    description: "Grow your bot",
+    description: "-grow BOT_NAME TOKEN CLIENT_ID DESCRIPTION (generates a custom bot)",
     async execute(client, message, args, db){
         message.channel.send("Growing your new Bot ...", {files: ["./growing.gif"]});
         var botName = args[0];

@@ -11,7 +11,7 @@ const google = new Scraper({
 
 module.exports = {
     name: 'image',
-    description: "Scrape for relevant image!",
+    description: "-image WORD (pulls most relevant image to the word)",
     //-roulette color ammount
     async execute(client, message, args){
         const image_query = args.join(' ');

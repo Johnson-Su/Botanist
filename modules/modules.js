@@ -4,7 +4,7 @@ const storage = new Storage();
 
 module.exports = {
     name: 'modules',
-    description: "Print all available modules",
+    description: "-modules (prints all avaliable modules)",
     execute(client, message, args, db){
         message.channel.send('All available modules:');
 

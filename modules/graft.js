@@ -1,6 +1,6 @@
 module.exports = {
     name: 'graft',
-    description: "Graft new module - take in file",
+    description: "-graft (Lets you upload custom modules)",
     execute(client, message, args, db){
         message.guild.channels.create('branch', {
             type: 'text'

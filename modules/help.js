@@ -2,7 +2,7 @@ const { Role } = require("discord.js");
 const fs = require('fs');
 module.exports = {
     name: 'help',
-    description: "List all Botanist commands",
+    description: "-help (lists all bot commands)",
     async execute(client, message, args){
         var nameArray = [];
         var finalString = "";

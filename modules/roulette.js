@@ -4,7 +4,7 @@ const { Role } = require("discord.js");
 
 module.exports = {
     name: 'roulette',
-    description: "Spin the wheel with your friends!",
+    description: "-roulette COLOR $MONEY (simulates a standard roulette wheel)",
     //-roulette color ammount
     execute(client, message, args){
         const result1 = Math.floor(Math.random() * 36);

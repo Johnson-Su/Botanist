@@ -4,7 +4,7 @@ const { Role } = require("discord.js");
 
 module.exports = {
     name: 'joke',
-    description: "Say a random joke",
+    description: "-joke (tells a random joke)",
     execute(client, message, args){
         const jokes = ["What's big brown and sticky?", "Why couldn't the bike stand up?","What did the person say to the stone?"];
         const ans = ["A stick.", "Because it was two tired!","You rock!"];
